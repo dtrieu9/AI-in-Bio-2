@@ -17,8 +17,7 @@ import py3Dmol
 
 SEARCH_URL = "https://search.rcsb.org/rcsbsearch/v2/query"
 DATA_BASE = "https://data.rcsb.org/rest/v1/core"
-DATASET_CACHE = "protein_dataset.csv"
-STRUCTURE_CACHE_DIR = CACHE_DIR / "structures"
+DATASET_CACHE = "https://raw.githubusercontent.com/dtrieu9/AI-in-Bio-2/refs/heads/main/protein_dataset.csv"
 AA_ORDER = list("ACDEFGHIKLMNPQRSTVWY")
 class AminoAcidComposition(BaseEstimator, TransformerMixin):
     # Convert sequences to [length + amino-acid frequencies].
@@ -293,16 +292,11 @@ def build_or_load_dataset(
                 + ", ".join(missing)
             )
 
-        CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        df.to_csv(DATASET_CACHE, index=False)
-        print(f"Saved refreshed dataset to {DATASET_CACHE}")
-        return df
 
     except (requests.exceptions.RequestException, RuntimeError) as error:
-        if DATASET_CACHE.exists():
-            print(f"RCSB unavailable or incomplete ({error})")
-            print(f"Using cached dataset: {DATASET_CACHE}")
-            return pd.read_csv(DATASET_CACHE)
+        print(f"RCSB unavailable or incomplete ({error})")
+        print(f"Using cached dataset: {DATASET_CACHE}")
+        return pd.read_csv(DATASET_CACHE)
 
         raise RuntimeError(
             "Could not retrieve data from RCSB, and no local backup dataset "
