@@ -17,8 +17,7 @@ import py3Dmol
 
 SEARCH_URL = "https://search.rcsb.org/rcsbsearch/v2/query"
 DATA_BASE = "https://data.rcsb.org/rest/v1/core"
-CACHE_DIR = Path(__file__).resolve().parent / "data"
-DATASET_CACHE = CACHE_DIR / "protein_dataset.csv"
+DATASET_CACHE = "protein_dataset.csv"
 STRUCTURE_CACHE_DIR = CACHE_DIR / "structures"
 AA_ORDER = list("ACDEFGHIKLMNPQRSTVWY")
 class AminoAcidComposition(BaseEstimator, TransformerMixin):
